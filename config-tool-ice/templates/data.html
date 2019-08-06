@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery.treeview.css')}}">
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='xlsx.core.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.treeview.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='sta_table_sort.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='yx_table_sort.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='yc_table_sort.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='ycexcel.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='yc_data.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='yxexcel.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='yx_data.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='linkexcel.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='link_data.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='sys_data.js')}}"></script>
+</head>
+<body>
+<div id="header">
+    <span style="font-size:50px">点表配置工具</span>
+    <span style="float:right;margin-right:40px;margin-top:22px" id="time"><span></span>年<span></span>月<span></span>日<span></span>时<span></span>分<span></span>秒</span>
+</div>
+
+<div id="nav">
+   <ul id="browser" class="filetree treeview-famfamfam">
+   <li id="system" class="closed"><span class="folder" onclick="show_sys_table()">系统属性</span>
+   <ul id = "sta">
+		<li id="station" class="closed">
+            <span class="folder" onclick="show_link_table()">厂站列表</span>
+            {% for i in range(staLen) %}
+			    <ul>
+				<li class="closed">
+                    <span class="folder" id="staId" style="display: none;">{{ ids[i] }}</span>
+                    <span class="folder" id="staName">{{ staValue[i].name }}</span>
+					<ul>
+						<li><span class="file" name="yx">遥信</span></li>
+					</ul>
+					<ul>
+						<li><span class="file" name="yc">遥测</span></li>
+					</ul>
+					<ul>
+						<li><span class="file">遥控</span></li>
+					</ul>
+					<ul>
+						<li><span class="file">遥调</span></li>
+					</ul>
+					<ul>
+						<li><span class="file">事件</span></li>
+					</ul>
+				</li>
+                </ul>
+            {% endfor %}
+		</li>
+   </ul>
+   </li>
+   </ul>
+</div>
+
+<div id="section">
+    <div class="row" id="yc_table" style="display: none;">
+    <fieldset>
+        <legend>遥测数据</legend>
+        <span class="mt-sm">
+        <input type="file" id="ycfile" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+        <a href="javascript:selectYcFile()">加载本地excel文件</a>
+        </span>
+        <input type="button" onClick="set_yc_data();" value="保存"/>
+        <button type="button" onClick="show_db_yc_data();">显示</button>
+        <button type="button" onClick="delete_yc_data();">删除</button>
+        <input type="button" onClick="exportExcel_yc();" value="导出Excel"/>
+        <div id="ycresult" contenteditable>
+            <table id="ycTable" style="background-color:#eeeeee;" bordercolor="#aaaaaa" border="1" cellpadding="0" cellpadding="2" width="100%">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="i-checks" id="selectAllYc"/></th>
+                    <th id="th0_yc" onclick="SortTable_yc(this)" class="as">{{ tValue[2][1] }}</th>
+                    <th>{{ tValue[2][2] }}</th>
+                    <th>{{ tValue[2][3] }}</th>
+                    <th>{{ tValue[2][4] }}</th>
+                    <th>{{ tValue[2][5] }}</th>
+                    <th>{{ tValue[2][6] }}</th>
+                    <th>{{ tValue[2][7] }}</th>
+                    <th>{{ tValue[2][8] }}</th>
+                    <th>{{ tValue[2][9] }}</th>
+                    <th>{{ tValue[2][10] }}</th>
+                    <th>{{ tValue[2][11] }}</th>
+                    <th>{{ tValue[2][12] }}</th>
+                    <th>{{ tValue[2][13] }}</th>
+                    <th>{{ tValue[2][14] }}</th>
+                    <th>{{ tValue[2][15] }}</th>
+                    <th>{{ tValue[2][16] }}</th>
+                    <th>{{ tValue[2][17] }}</th>
+                    <th>{{ tValue[2][18] }}</th>
+                    <th>{{ tValue[2][19] }}</th>
+                    <th>{{ tValue[2][20] }}</th>
+                    <th>{{ tValue[2][21] }}</th>
+                    <th>{{ tValue[2][22] }}</th>
+                    <th>{{ tValue[2][23] }}</th>
+                    <th>{{ tValue[2][24] }}</th>
+                    <th>{{ tValue[2][25] }}</th>
+                    <th>{{ tValue[2][26] }}</th>
+                    <th>{{ tValue[2][27] }}</th>
+                    <th>{{ tValue[2][28] }}</th>
+                    <th>{{ tValue[2][29] }}</th>
+                    <th>{{ tValue[2][30] }}</th>
+                    <th>{{ tValue[2][31] }}</th>
+                    <th>{{ tValue[2][32] }}</th>
+                </tr>
+                </thead>
+                <tbody id="tBody_yc">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <input type="button" onClick="addYcRow();" style="font-size:16px;" value="+"/>
+    <input type="button" onClick="deleteYcRow();" style="font-size:16px;" value="-"/>
+</div>
+
+    <div class="row" id="yx_table" style="display: none;">
+    <fieldset>
+        <legend>遥信数据</legend>
+        <span class="mt-sm">
+        <input type="file" id="yxfile" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+        <a href="javascript:selectYxFile()">加载本地excel文件</a>
+        </span>
+        <input type="button" onClick="set_yx_data();" value="保存"/>
+        <button type="button" onClick="show_db_yx_data();">显示</button>
+        <button type="button" onClick="delete_yx_data();">删除</button>
+        <input type="button" onClick="exportExcel_yx();" value="导出Excel"/>
+        <div id="yxresult" contenteditable>
+            <table id="yxTable" style="background-color:#eeeeee;" bordercolor="#aaaaaa" border="1" cellpadding="0" cellpadding="2" width="100%">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="i-checks" id="selectAllYx"/></th>
+                    <th id="th0_yx" onclick="SortTable_yx(this)" class="as">{{ tValue[3][1] }}</th>
+                    <th>{{ tValue[3][2] }}</th>
+                    <th>{{ tValue[3][3] }}</th>
+                    <th>{{ tValue[3][4] }}</th>
+                    <th>{{ tValue[3][5] }}</th>
+                    <th>{{ tValue[3][6] }}</th>
+                    <th>{{ tValue[3][7] }}</th>
+                    <th>{{ tValue[3][8] }}</th>
+                    <th>{{ tValue[3][9] }}</th>
+                </tr>
+                </thead>
+                <tbody id="tBody_yx">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <input type="button" onClick="addYxRow();" style="font-size:16px;" value="+"/>
+    <input type="button" onClick="deleteYxRow();" style="font-size:16px;" value="-"/>
+</div>
+
+    <div class="row" id="link_table" style="display: none;">
+    <fieldset>
+        <legend>厂站数据</legend>
+        <span class="mt-sm">
+        <input type="file" id="linkfile" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+        <a href="javascript:selectLinkFile()">加载本地excel文件</a>
+        </span>
+        <input type="button" onclick="set_link_data();" value="保存"/>
+        <button type="button" onClick="show_db_station_data();">显示</button>
+        <button type="button" onClick="delete_station_data();">删除</button>
+        <input type="button" onclick="exportExcel_link();" value="导出Excel"/>
+        <div id="linkresult" contenteditable>
+            <table id="linkTable" style="background-color:#eeeeee;" bordercolor="#aaaaaa" border="1" cellpadding="0" cellpadding="2" width="100%">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="i-checks" id="selectAllStation"/></th>
+                    <th id="th0_sta" onclick="SortTable_sta(this)" class="as">{{ tValue[1][0] }}</th>
+                    <th>{{ tValue[1][1] }}</th>
+                    <th>{{ tValue[1][2] }}</th>
+                    <th>{{ tValue[1][3] }}</th>
+                    <th>{{ tValue[1][4] }}</th>
+                    <th>{{ tValue[1][5] }}</th>
+                    <th>{{ tValue[1][6] }}</th>
+                    <th>{{ tValue[1][7] }}</th>
+                    <th>{{ tValue[1][8] }}</th>
+                    <th>{{ tValue[1][9] }}</th>
+                    <th>{{ tValue[1][10] }}</th>
+                    <th>{{ tValue[1][11] }}</th>
+                    <th>{{ tValue[1][12] }}</th>
+                    <th>{{ tValue[1][13] }}</th>
+                    <th>{{ tValue[1][14] }}</th>
+                    <th>{{ tValue[1][15] }}</th>
+                    <th>{{ tValue[1][16] }}</th>
+                </tr>
+                </thead>
+                <tbody id="tBody_link">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+    <input type="button" onClick="addStationRow();" style="font-size:16px;" value="+"/>
+    <input type="button" onClick="deleteStationRow();" style="font-size:16px;" value="-"/>
+</div>
+
+    <div class="row" id="sys_table" style="display: none;">
+    <fieldset>
+        <legend>系统数据</legend>
+        <input type="button" onclick="set_sys_data();" value="保存"/>
+        <button type="button" onClick="show_db_sys_data();">显示</button>
+        <div id="sysresult" contenteditable>
+            <table id="sysTable" style="background-color:#eeeeee;" bordercolor="#aaaaaa" border="1" cellpadding="0" cellpadding="2" width="100%">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="i-checks" id="selectAllSys"/></th>
+                    <th>{{ tValue[0][1] }}</th>
+                    <th>{{ tValue[0][2] }}</th>
+                </tr>
+                </thead>
+                <tbody id="tBody_sys">
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>
+</div>
+
+<div id="footer">
+    @2019  西安端怡科技有限公司
+    <span style="float:right;margin-right: 40px;" id="about">关于产品</span>
+    <span style="float:right;margin-right: 20px;" id="contect">联系我们</span>
+</div>
+</body>
+</html>
